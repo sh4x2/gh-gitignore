@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -e
+
+if [[ "$1" == "--help" ]]; then
+    echo "Usage: gh gitignore [OPTIONS] [TEMPLATE]"
+    echo "Adds .gitignore from templates in https://github.com/github/gitignore "
+    echo ""
+    echo "Options:"
+    echo "  --append  Append template to .gitignore, replaces when not passed"
+    echo "  --help    Displays halp"
+    echo ""
+    echo "Examples:"
+    echo "  gh gitignore Python  # Add Python .gitignore"
+    echo "  gh gitignore --append Global/VisualStudioCode  # Append VSCode to .gitignore"
+    exit 0
+fi
+
+if [[ -z "$1" ]]; then
+    echo "Error: No argument provided. Use 'gh gitignore --help' for usage instructions."
+    exit 1
+fi
+
+if [[ "$1" == "--append" ]]; then
+    if [[ -z "$2" ]]; then
+        echo "Error: No argument provided for [template]."
+        echo "Use 'gh gitignore --append [template]' to append [template] to current .gitignore."
+        exit 1
+    fi
+
+    # Download gitignore template and append it it .gitignore
+    file_url="https://raw.githubusercontent.com/github/gitignore/main/$2.gitignore"
+    echo "[INFO] fetching template $2 from $file_url"
+    curl $file_url -s -o - >> .gitignore
+else
+    # Download gitignore template and append it it .gitignore
+    file_url="https://raw.githubusercontent.com/github/gitignore/main/$1.gitignore"
+    echo "[INFO] fetching template $1 from $file_url"
+    curl $file_url -s -o - > .gitignore
+fi
+
+
+
