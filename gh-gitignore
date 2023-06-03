@@ -27,12 +27,12 @@ if [[ "$1" == "--append" ]]; then
         exit 1
     fi
 
-    # Download gitignore template and append it it .gitignore
+    # Download template and append it to .gitignore
     file_url="https://raw.githubusercontent.com/github/gitignore/main/$2.gitignore"
     echo "[INFO] fetching template $2 from $file_url"
     curl $file_url -s -o - >> .gitignore
 else
-    # Download gitignore template and append it it .gitignore
+    # Download template and replace .gitignore with it
     file_url="https://raw.githubusercontent.com/github/gitignore/main/$1.gitignore"
     echo "[INFO] fetching template $1 from $file_url"
     curl $file_url -s -o - > .gitignore
