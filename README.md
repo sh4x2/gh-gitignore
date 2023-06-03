@@ -9,14 +9,21 @@ gh extension install sh4x2/gh-gitignore
 
 ## Usage
 ```
-gh gitignore [OPTIONS] [TEMPLATE]
-Adds .gitignore from templates in https://github.com/github/gitignore
+Usage:
+  gh gitignore [COMMAND] [OPTIONS] [TEMPLATE]
+
+Commands:
+  add         Adds .gitignore from template in https://github.com/github/gitignore
+  list        Lists all template in https://github.com/github/gitignore
+  search      Search template in https://github.com/github/gitignore
 
 Options:
-  --append  Append template to .gitignore, replaces when not passed
-  --help    Displays halp
+  --append    Append template to .gitignore, replaces when not passed
+  --help      Displays halp
 
-Examples:s
+Examples:
   gh gitignore Python  # Add Python .gitignore
-  gh gitignore --append Global/VisualStudioCode  # Append VSCode to .gitignore
+  gh gitignore add Global/VisualStudioCode --append  # Append VSCode to .gitignore
+  gh gitignore list  # List templates
+  gh gitignore search python  # Search for all 'python' templates
 ```
