@@ -11,6 +11,8 @@ if [[ "$1" == "--help" ]]; then
     echo ""
     echo "Commands:"
     echo "  add         Adds .gitignore from template in https://github.com/github/gitignore"
+    echo "  list        Lists all template in https://github.com/github/gitignore"
+    echo "  search      Search template in https://github.com/github/gitignore"
     echo ""
     echo "Options:"
     echo "  --append    Append template to .gitignore, replaces when not passed"
@@ -19,6 +21,8 @@ if [[ "$1" == "--help" ]]; then
     echo "Examples:"
     echo "  gh gitignore Python  # Add Python .gitignore"
     echo "  gh gitignore add Global/VisualStudioCode --append  # Append VSCode to .gitignore"
+    echo "  gh gitignore list  # List templates"
+    echo "  gh gitignore search python  # Search for all 'python' templates"
     exit 0
 fi
 
@@ -43,4 +47,17 @@ if [[ "$1" == "add" ]]; then
 fi
 
 
+if [[ "$1" == "list" ]]; then
+    # Download template and replace .gitignore with it
+    search_url="https://api.github.com/repos/github/gitignore/git/trees/main?recursive=1"
+    echo "[INFO] listing templates from $search_url"
+    curl $search_url -s | jq '.tree[] | .path' | grep -i -E '\.gitignore\"$'
+fi
 
+
+if [[ "$1" == "search" ]]; then
+    # Download template and replace .gitignore with it
+    search_url="https://api.github.com/repos/github/gitignore/git/trees/main?recursive=1"
+    echo "[INFO] searching for $2 in $search_url"
+    curl $search_url -s | jq '.tree[] | .path' | grep -i -E '\.gitignore\"$' | grep -i -E $2
+fi
